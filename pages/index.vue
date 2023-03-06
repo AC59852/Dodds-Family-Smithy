@@ -18,7 +18,7 @@
       <HomeReviewComponent v-for="review in reviews" :key="review.id" :review="review"></HomeReviewComponent>
     </section>
     <section class="home__cta">
-      <h2>Want to Learn More</h2>
+      <h2>Want to Learn More?</h2>
       <NuxtLink to="/">Contact Us</NuxtLink>
     </section>
   </div>
