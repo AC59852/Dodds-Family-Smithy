@@ -11,7 +11,7 @@
     <HomeAboutComponent></HomeAboutComponent>
     <section class="home__products">
       <h2>Featured Products</h2>
-      <SwiperComponent></SwiperComponent>
+      <!-- <SwiperComponent></SwiperComponent> -->
       <NuxtLink to="/">Explore All</NuxtLink>
     </section>
     <section class="home__reviews">

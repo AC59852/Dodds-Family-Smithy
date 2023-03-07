@@ -15,6 +15,7 @@
 <style scoped>
 .header {
   position: fixed;
+  z-index: 999;
   width: 90%;
   height: 85px;
   top: 4%;

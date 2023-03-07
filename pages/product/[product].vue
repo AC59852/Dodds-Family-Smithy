@@ -1,9 +1,6 @@
-
-import SwiperComponent from '~~/components/swiperComponent.vue';
-
 <template>
   <div class="product">
-    <main class="product__main">
+    <section class="product__main">
       <SwiperComponent></SwiperComponent>
       <section class="product__details">
         <h1>{{ $route.params.product }}</h1>
@@ -21,7 +18,7 @@ import SwiperComponent from '~~/components/swiperComponent.vue';
           <NuxtLink to="/cart" class="product__btn product__btn--details product__btn--link">Add to Order</NuxtLink>
         </div>
       </section>
-    </main>
+    </section>
     <ProductDualImageComponent></ProductDualImageComponent>
     <ProductSingleImageComponent></ProductSingleImageComponent>
     <ProductTextComponent></ProductTextComponent>

@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     modules: ['autoplay', 'pagination']
   },
   css: [
-    '@/assets/css/reset.css',
     '@/assets/css/main.css',
   ],
 
