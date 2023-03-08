@@ -17,11 +17,14 @@
       </div>
     </section>
     <section class="home__reviews">
-      <HomeReviewComponent v-for="review in reviews" :key="review.id" :review="review"></HomeReviewComponent>
+      <h2>Customer Reviews</h2>
+      <div class="reviews__wrapper">
+        <HomeReviewComponent v-for="review in reviews" :key="review.id" :review="review"></HomeReviewComponent>
+      </div>
     </section>
     <section class="home__cta">
       <h2>Want to Learn More?</h2>
-      <NuxtLink to="/">Contact Us</NuxtLink>
+      <NuxtLink to="/" class="cta__link">Contact Us</NuxtLink>
     </section>
   </div>
 </template>
@@ -63,7 +66,37 @@
               item: 'Metal Rose',
               quantity: 1,
             },
-            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work.'
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work.'
+          },
+          {
+            id: 1, 
+            name: 'Marshall Sheets', 
+            stars: 4,
+            order: {
+              item: 'Metal Rose',
+              quantity: 1,
+            },
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'
+          },
+          {
+            id: 1, 
+            name: 'Marshall Sheets', 
+            stars: 4,
+            order: {
+              item: 'Metal Rose',
+              quantity: 1,
+            },
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'
+          },
+          {
+            id: 1, 
+            name: 'Marshall Sheets', 
+            stars: 4,
+            order: {
+              item: 'Metal Rose',
+              quantity: 1,
+            },
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. \n I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'
           },
         ],
         images: [
@@ -98,6 +131,7 @@
           ease: 'easeOut'
         })
       })
+
     }
   }
 </script>
@@ -179,7 +213,7 @@
   margin: 150px auto;
 }
 
-.home__products h2 {
+.home__products h2, .home__reviews h2 {
   font-family: 'League Spartan';
   font-size: 100px;
   text-align: center;
@@ -205,8 +239,49 @@
   background-size: 100% 200%;
   transition: background 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .products__explore a:hover {
   background-position: 100% 100%;
+}
+
+.home__reviews {
+  max-width: 1300px;
+  margin: 150px auto;
+}
+
+.reviews__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 35px;
+}
+
+.home__cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.home__cta h2 {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 100px;
+  text-align: center;
+  margin-bottom: 60px;
+  color: white;
+  font-weight: bold;
+}
+
+.cta__link {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 38px;
+  color: white;
+  font-weight: bold;
+  width: 455px;
+  background-color: #CE3D3D;
+  border-radius: 3px;
+  padding: 30px 0;
+  text-decoration: none;
+  margin: 0 auto;
 }
 </style>
