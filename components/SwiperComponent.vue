@@ -6,27 +6,54 @@
     :centered-slides="true"
     :loop="true"
     :autoplay="{
-      delay: 1500,
+      delay: 2600,
       disableOnInteraction: false
     }"
     :pagination="{
-      clickable: true
+      clickable: true,
+      dynamicBullets: true,
+      dynamicMainBullets: 1
     }"
   >
-  <SwiperSlide style="background-color: green;">Slide 1</SwiperSlide>
-  <SwiperSlide style="background-color: yellow;">Slide 2</SwiperSlide>
-  <SwiperSlide style="background-color: purple;">Slide 3</SwiperSlide>
-  <SwiperSlide style="background-color: pink;">Slide 4</SwiperSlide>
-  <SwiperSlide style="background-color: blue;">Slide 5</SwiperSlide>
-  <SwiperSlide style="background-color: orange;">Slide 6</SwiperSlide>
-  <SwiperSlide style="background-color: teal;">Slide 7</SwiperSlide>
+  <SwiperSlide v-for="image in images" :key="image.id" class="slide">
+    <img :src="image.src" class="swiper__image" />
+  </SwiperSlide>
   </Swiper>
 </template>
+<script>
+export default {
+  props: ['images']
+}
+</script>
 <style>
   .swiper {
-    width: 50%;
+    width: 100%;
+    max-width: 1300px;
     height: 200px;
     margin: 0 auto;
-    background-color: red;
+  }
+
+  .home__swiper {
+    height: 450px;
+    padding-bottom: 45px !important;
+  }
+  
+  .home__swiper .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home__swiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    border: solid 1px #fff;
+    background-color: transparent;
+    opacity: 1;
+    transition: all 0.3s;
+  }
+
+  .home__swiper .swiper-pagination-bullet-active {
+    background-color: #fff;
   }
 </style>

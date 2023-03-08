@@ -4,7 +4,7 @@
       <h3>{{ review.name }}</h3>
       <span>Order: {{ review.order.quantity }} {{ review.order.item }}</span>
       <div class="review__stars">
-        <img v-for="star in review.stars" :key="star" src="" alt="star">
+        <img v-for="star in review.stars" :key="star" src="~/assets/star-solid.svg" alt="star">
       </div>
     </div>
     <p class="review__body">

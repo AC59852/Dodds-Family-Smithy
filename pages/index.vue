@@ -11,8 +11,10 @@
     <HomeAboutComponent></HomeAboutComponent>
     <section class="home__products">
       <h2>Featured Products</h2>
-      <!-- <SwiperComponent></SwiperComponent> -->
-      <NuxtLink to="/">Explore All</NuxtLink>
+      <SwiperComponent :images="images" class="home__swiper"></SwiperComponent>
+      <div class="products__explore">
+        <NuxtLink to="/" class="">Explore All</NuxtLink>
+      </div>
     </section>
     <section class="home__reviews">
       <HomeReviewComponent v-for="review in reviews" :key="review.id" :review="review"></HomeReviewComponent>
@@ -24,6 +26,11 @@
   </div>
 </template>
 <script>
+  import gsap from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
   export default {
     data() {
       return {
@@ -36,9 +43,61 @@
               item: 'Metal Rose',
               quantity: 1,
             },
-            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'}
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'
+          },
+          {
+            id: 1, 
+            name: 'Marshall Sheets', 
+            stars: 4,
+            order: {
+              item: 'Metal Rose',
+              quantity: 1,
+            },
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future.'
+          },
+          {
+            id: 2, 
+            name: 'Marshall Sheets', 
+            stars: 5,
+            order: {
+              item: 'Metal Rose',
+              quantity: 1,
+            },
+            text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work.'
+          },
+        ],
+        images: [
+          {id: 0, src: '/products/buck_knife.jpg', alt: 'buck knife'},
+          {id: 1, src: '/products/axe_grass.jpg', alt: 'axe in grass'},
+          {id: 2, src: '/products/sword_rust.jpg', alt: 'rusted sword'},
+          {id: 3, src: '/products/rose.jpg', alt: 'rose'},
+          {id: 4, src: '/products/axe_wood.jpg', alt: 'hatchet'},
+          {id: 5, src: '/products/sword_wood.jpg', alt: 'sword on wood'},
+          {id: 6, src: '/products/hatchet.jpg', alt: 'sword on wood'},
         ]
       }
+    },
+
+    mounted() {
+      // create parallax for the hero image
+      gsap.utils.toArray('.hero__image').forEach((image) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            scroller: document.body,
+            trigger: image,
+            scrub: true,
+            pin: false
+          }
+        })
+
+        tl.from(image, {
+          y: 0,
+          ease: 'easeOut'
+        }).to(image, {
+          y: 300,
+          ease: 'easeOut'
+        })
+      })
     }
   }
 </script>
@@ -50,6 +109,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
   }
 
   .hero__image {
@@ -113,5 +173,40 @@
   100% {
     transform: translateY(0);
   }
+}
+
+.home__products {
+  margin: 150px auto;
+}
+
+.home__products h2 {
+  font-family: 'League Spartan';
+  font-size: 100px;
+  text-align: center;
+  margin-bottom: 100px;
+  color: white;
+  font-weight: bold;
+}
+
+.products__explore {
+  font-family: 'League Spartan';
+  font-size: 42px;
+  text-align: center;
+  margin-top: 97px;
+}
+
+.products__explore a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 22px 20px 14px;
+  border-bottom: solid 6px #CE3D3D;
+  background: linear-gradient(transparent, transparent 50%, #CE3D3D 50%, #CE3D3D);
+  background-size: 100% 200%;
+  transition: background 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.products__explore a:hover {
+  background-position: 100% 100%;
 }
 </style>

@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   swiper: {
     modules: ['autoplay', 'pagination']
   },
+  
+  build: {
+    transpile: ['gsap']
+  },
+
   css: [
     '@/assets/css/main.css',
   ],
