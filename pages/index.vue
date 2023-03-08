@@ -100,13 +100,13 @@
           },
         ],
         images: [
-          {id: 0, src: '/products/buck_knife.jpg', alt: 'buck knife'},
-          {id: 1, src: '/products/axe_grass.jpg', alt: 'axe in grass'},
-          {id: 2, src: '/products/sword_rust.jpg', alt: 'rusted sword'},
-          {id: 3, src: '/products/rose.jpg', alt: 'rose'},
-          {id: 4, src: '/products/axe_wood.jpg', alt: 'hatchet'},
-          {id: 5, src: '/products/sword_wood.jpg', alt: 'sword on wood'},
-          {id: 6, src: '/products/hatchet.jpg', alt: 'sword on wood'},
+          {id: 0, src: '/products/buck_knife.jpg', alt: 'buck knife', name: 'Buck Knife'},
+          {id: 1, src: '/products/axe_grass.jpg', alt: 'axe in grass', name: 'Axe'},
+          {id: 2, src: '/products/sword_rust.jpg', alt: 'rusted sword', name: 'Sword'},
+          {id: 3, src: '/products/rose.jpg', alt: 'metal rose',  name: 'Metal Rose'},
+          {id: 4, src: '/products/axe_wood.jpg', alt: 'hatchet', name: 'Hatchet'},
+          {id: 5, src: '/products/sword_wood.jpg', alt: 'sword on wood', name: 'Sword'},
+          {id: 6, src: '/products/hatchet.jpg', alt: 'hatchet', name: 'Hatchet'}
         ]
       }
     },
