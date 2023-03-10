@@ -52,3 +52,7 @@ table {
 html {
   background-color: #161616;
 }
+
+.simplebar-track-test {
+  background-color: red !important;
+  }

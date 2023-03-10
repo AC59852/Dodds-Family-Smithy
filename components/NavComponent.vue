@@ -18,7 +18,7 @@
   z-index: 999;
   width: 90%;
   height: 85px;
-  top: 4%;
+  top: 3%;
   left: 50%;
   transform: translateX(-50%);
   background-color: hsla(0, 0%, 0%, 0.7);
