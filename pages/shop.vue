@@ -10,8 +10,6 @@
   </section>
 </template>
 <script>
-import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
-import 'overlayscrollbars/overlayscrollbars.css';
 export default {
   data() {
     return {
@@ -37,10 +35,6 @@ export default {
   // mounted() {
   //   document.querySelector('.footer').style.display = 'none';
   // },
-
-  components: {
-    OverlayScrollbarsComponent
-  }
 }
 </script>
 <style scoped>
