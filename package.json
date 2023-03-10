@@ -14,6 +14,7 @@
     "@nuxtjs/google-fonts": "^3.0.0-0",
     "gsap": "^3.11.4",
     "nuxt-swiper": "^1.0.1",
-    "object-fit-images": "^3.2.4"
+    "object-fit-images": "^3.2.4",
+    "overlayscrollbars-vue": "^0.5.1"
   }
 }

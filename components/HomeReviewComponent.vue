@@ -66,4 +66,11 @@ export default {
     display: block;
     line-height: 167%;
   }
+
+  /* reviews from 4 - 6 get align flex-start */
+  .home__review:nth-child(4),
+  .home__review:nth-child(5),
+  .home__review:nth-child(6) {
+    align-self: flex-start;
+  }
 </style>
