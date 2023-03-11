@@ -1,5 +1,5 @@
 <template>
-  <Swiper
+  <Swiper v-if="$route.name === 'index'"
     :modules="[SwiperAutoplay, SwiperPagination]"
     :slides-per-view="3"
     :space-between="30"
@@ -16,11 +16,26 @@
     }"
   >
   <SwiperSlide v-for="image in images" :key="image.id" class="slide">
-    <NuxtLink v-if="$route.name === 'index'" :to="`/product/${image.name}`">
-      <img :src="image.src" class="swiper__image" />
+    <NuxtLink :to="`/product/${image.name}`">
+      <img :src="image.src" class="swiper__image">
       <h3>{{ image.name }}</h3>
     </NuxtLink>
-    <img v-else :src="image.src" class="swiper__image" />
+  </SwiperSlide>
+  </Swiper>
+  <Swiper v-else
+    :modules="[SwiperAutoplay, SwiperPagination]"
+    :slides-per-view="1"
+    :space-between="30"
+    :centered-slides="true"
+    :loop="true"
+    :pagination="{
+      clickable: true,
+      dynamicBullets: true,
+      dynamicMainBullets: 1
+    }"
+  >
+  <SwiperSlide v-for="image in images" :key="image.id" class="slide">
+    <img :src="image.src" class="swiper__image" >
   </SwiperSlide>
   </Swiper>
 </template>
@@ -33,13 +48,12 @@ export default {
   .swiper {
     width: 100%;
     max-width: 1300px;
-    height: 200px;
     margin: 0 auto;
+    padding-bottom: 45px !important;
   }
 
   .home__swiper {
     height: 450px;
-    padding-bottom: 45px !important;
   }
 
   .home__swiper .swiper-slide {
@@ -79,7 +93,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.7);
   }
 
-  .home__swiper .swiper-pagination-bullet {
+  .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
     border: solid 1px #fff;
@@ -88,7 +102,7 @@ export default {
     transition: all 0.3s;
   }
 
-  .home__swiper .swiper-pagination-bullet-active {
+  .swiper-pagination-bullet-active {
     background-color: #fff;
   }
 </style>
