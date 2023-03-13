@@ -8,3 +8,72 @@
     </article>
   </section>
 </template>
+<style scoped>
+.product__dualImg {
+  display: flex;
+  justify-content: center;
+  margin-top: 160px;
+  gap: 80px;
+}
+
+.product__img--tall {
+  width: 33%;
+  object-fit: cover;
+  height: 700px;
+  margin-top: auto;
+}
+
+.product__text {
+  width: 46%;
+}
+
+.product__img--small {
+  width: 100%;
+  object-fit: cover;
+  height: 500px;
+}
+
+.product__title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: bold;
+  font-size: 6rem;
+  color: white;
+  margin: 24px 0 8px;
+}
+
+.product__para {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: white;
+  margin: 0;
+  line-height: 175%;
+}
+
+@media screen and (min-width: 2200px) {
+  .product__dualImg {
+    gap: 85px;
+  }
+
+  .product__img--tall {
+    height: 990px;
+    width: 40%;
+  }
+
+  .product__text {
+    width: 45%;
+  }
+
+  .product__img--small {
+    height: 560px;
+  }
+
+  .product__title {
+    font-size: 7rem;
+  }
+
+  .product__para {
+    font-size: 22px;
+  }
+}
+</style>

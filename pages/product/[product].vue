@@ -27,7 +27,7 @@
     <section class="product__cta">
       <h2 class="product__title product__title--cta">Ready To Order?</h2>
       <div class="product__btns product__btns--cta">
-        <button class="product__btn product__btn--cta">Back To Top</button>
+        <button class="product__btn product__btn--cta product__btn--cta--top">Back To Top</button>
         <NuxtLink to="/cart" class="product__btn product__btn--cta product__btn--link">Add To Cart</NuxtLink>
       </div>
     </section>
@@ -51,23 +51,24 @@ export default {
 .product {
   width: 85%;
   margin: 0 auto;
+  max-width: 1900px;
 }
 
 .product__main {
   display: flex;
   justify-content: center;
-  margin-top: 180px;
-  gap: 80px;
+  margin-top: 160px;
+  gap: 20px;
 }
 
 .product__swiper {
-  width: 50%;
+  width: 55%;
   margin: 0 auto;
 }
 
 .swiper {
-  max-width: 600px;
-  height: 550px;
+  max-width: 700px;
+  height: 650px;
   margin: 0 auto;
 }
 
@@ -85,7 +86,7 @@ export default {
 .product__details h1 {
   font-family: 'League Spartan', sans-serif;
   font-weight: bold;
-  font-size: 6rem;
+  font-size: 7rem;
   color: white;
   text-transform: capitalize;
   margin-top: 3%;
@@ -94,7 +95,7 @@ export default {
 .product__shortDesc {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: white;
   margin-top: 2%;
   margin-bottom: 4%;
@@ -106,11 +107,11 @@ export default {
 .product__bullets {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: white;
   display: flex;
   flex-direction: column;
-  gap: 29px;
+  gap: 32px;
 }
 
 .product__bullets li {
@@ -125,8 +126,8 @@ export default {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   background-color: #CE3D3D;
   border-radius: 50%;
 }
@@ -143,20 +144,20 @@ export default {
   justify-content: center;
   align-items: center;
   font-family: 'Poppins';
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: white;
   border: solid 2px #CE3D3D;
-  width: 210px;
-  padding: 12px 0;
+  width: 230px;
+  padding: 16px 0;
   text-align: center;
   text-decoration: none;
   border-radius: 3px;
   transition: all 0.2s ease;
   }
 
-  .product__btn--order {
+  .product__btn--link {
     background-color: #CE3D3D;
-    font-weight: 500;
+    font-weight: bold;
   }
 
   .product__btn--details {
@@ -170,7 +171,61 @@ export default {
     box-shadow: 0 0 10px 4px #CE3D3D;
   }
 
-:deep().product__dualImg img, .product__singleImg img {
-  width: 100%;
+  .product__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 210px;
+    margin-bottom: 160px;
+  }
+
+  .product__title--cta {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    font-size: 6rem;
+    color: white;
+    text-transform: capitalize;
+    margin-bottom: 4%;
+  }
+
+  .product__btns--cta {
+    margin-top: 0;
+  }
+
+  .product__btn--cta--top {
+    background: transparent;
+  }
+
+@media screen and (min-width: 2300px) {
+  .swiper {
+    max-width: 899px;
+    height: 735px;
+  }
+
+  .product__details h1 {
+    font-size: 8rem;
+  }
+
+  .product__shortDesc {
+    font-size: 1.4rem;
+    max-width: 765px;
+  }
+
+  .product__bullets {
+    font-size: 1.4rem;
+    gap: 35px;
+  }
+
+  .product__bullets li::before {
+    width: 8px;
+    height: 8px;
+  }
+
+  .product__btn {
+    width: 250px;
+    padding: 18px 0;
+    font-size: 1.3rem;
+  }
 }
 </style>
