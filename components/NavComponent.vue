@@ -22,7 +22,7 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: hsla(0, 0%, 0%, 0.7);
-  border-radius: 900000px;
+  border-radius: 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
