@@ -2,11 +2,13 @@
   <nav class="shop__nav">
     <h2 class="shop__subtitle">Categories</h2>
     <ul class="shop__list">
-      <li class="shop__link" @click="filterCategory('all')">All</li>
+      <li class="shop__link" @click="filterCategory('all'), closeAllSublists($event)">
+        <span>All</span>
+      </li>
       <li class="shop__link" v-for="category in newCategories" :key="category">
         <span @click="openSublist($event), filterCategory(category)">{{ category.name }}</span>
         <ul class="shop__sublist" v-if="category.tags">
-          <li class="shop__sublink" @click="test(tag)" v-for="tag in category.tags" :key="tag">
+          <li class="shop__sublink" @click="filterTag(tag), setActiveSublink($event)" v-for="tag in category.tags" :key="tag">
             {{ tag }}
           </li>
         </ul>
@@ -21,14 +23,57 @@ export default {
 
   methods: {
     openSublist(event) {
+      // set the target to active
+      event.target.classList.add('shop__link--active');
+
+      // remove the active class from all other links
+      const links = document.querySelectorAll('.shop__link span');
+      links.forEach(link => {
+        if (link !== event.target) {
+          link.classList.remove('shop__link--active');
+        }
+      });
+
       // open the specific sublist
-      event.target.nextElementSibling.classList.toggle('shop__sublist--open');
+      event.target.nextElementSibling.classList.add('shop__sublist--open');
 
       // close all other sublists
       const sublists = document.querySelectorAll('.shop__sublist');
       sublists.forEach(sublist => {
         if (sublist !== event.target.nextElementSibling) {
           sublist.classList.remove('shop__sublist--open');
+        }
+      });
+
+      const sublinks = document.querySelectorAll('.shop__sublink');
+      sublinks.forEach(link => {
+        if (link !== event.target) {
+          link.classList.remove('shop__sublink--active');
+        }
+      });
+    },
+
+    closeAllSublists(event) {
+      
+      // remove the active class from all links
+      const links = document.querySelectorAll('.shop__link span');
+      
+      links.forEach(link => {
+        link.classList.remove('shop__link--active');
+      });
+      
+      event.target.classList.add('shop__link--active');
+      
+      // close all sublists
+      const sublists = document.querySelectorAll('.shop__sublist');
+      sublists.forEach(sublist => {
+        sublist.classList.remove('shop__sublist--open');
+      });
+
+      const sublinks = document.querySelectorAll('.shop__sublink');
+      sublinks.forEach(link => {
+        if (link !== event.target) {
+          link.classList.remove('shop__sublink--active');
         }
       });
     },
@@ -38,8 +83,22 @@ export default {
       this.$emit('filter-category', category);
     },
 
-    test(tag) {
-      console.log(tag);
+    filterTag(tag) {
+      // filter the products by the tag
+      this.$emit('filter-tag', tag);
+    },
+
+    setActiveSublink(event) {
+      // set the target to active
+      event.target.classList.add('shop__sublink--active');
+
+      // remove the active class from all other links
+      const links = document.querySelectorAll('.shop__sublink');
+      links.forEach(link => {
+        if (link !== event.target) {
+          link.classList.remove('shop__sublink--active');
+        }
+      });
     }
   },
   computed: {
@@ -85,12 +144,12 @@ export default {
     text-transform: capitalize;
   }
 
-  .shop__link {
+  .shop__link span {
     position: relative;
     cursor: pointer;
   }
 
-  .shop__link::before {
+  .shop__link span::before {
     content: '';
     position: absolute;
     transform: translateY(50%);
@@ -103,7 +162,11 @@ export default {
     transition: background-color 0.6s cubic-bezier(0.33, 1, 0.68, 1);
   }
 
-  .shop__link:hover.shop__link::before {
+  .shop__link--active::before {
+    background-color: #ce3d3db2 !important;
+  }
+
+  .shop__link:hover.shop__link span::before {
     background-color: #ce3d3db2;
   }
 
@@ -123,7 +186,12 @@ export default {
     width: fit-content;
     border-bottom: solid 2px transparent;
     padding-bottom: 4px;
+    cursor: pointer;
     transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .shop__sublink--active {
+    border-bottom: solid 2px #CE3D3D;
   }
 
   .shop__sublink:hover {

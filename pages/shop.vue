@@ -1,8 +1,9 @@
 <template>
   <section class="shop">
-    <ShopNavigationComponent :categories="categories" @filter-category="filterCategory"></ShopNavigationComponent>
+    <ShopNavigationComponent :categories="categories" @filter-category="filterCategory" @filter-tag="filterTag"></ShopNavigationComponent>
     <div class="shop__container">
-      <h1 class="shop__title">Our {{ product }}</h1>
+      <h1 class="shop__title" v-if="activeCategory === 'all'">Our Products</h1>
+      <h1 class="shop__title" v-else>Our {{ activeCategory }}</h1>
       <section class="shop__products">
         <ShopProductComponent v-show="product.hidden !== true" v-for="product in products" :key="product.id" :product="product"></ShopProductComponent>
       </section>
@@ -26,7 +27,8 @@ export default {
         {id: 6, name: 'Steel Mace', image: '/products/mace.jpg', category: 'maces', tag: 'two-handed'},
       ],
       categories: [],
-      tags: []
+      tags: [],
+      activeCategory: 'all',
     }
   },
 
@@ -57,7 +59,11 @@ export default {
       this.products.forEach(product => {
         product.hidden = false
       })
+
+      this.activeCategory = 'all'
     } else {
+      this.activeCategory = category.name
+
       this.products.forEach(product => {
         if (product.category !== category.name) {
           product.hidden = true
@@ -66,6 +72,17 @@ export default {
         }
       })
     }
+    },
+
+    filterTag(tag) {
+      this.products.forEach(product => {
+        // if the tag is in the category, show it
+        if (product.tag === tag && product.category === this.activeCategory) {
+          product.hidden = false
+        } else {
+          product.hidden = true
+        }
+      })
     }
   }
 }
@@ -104,5 +121,6 @@ export default {
     font-weight: bold;
     color: white;
     margin-left: 3%;
+    text-transform: capitalize;
   }
 </style>

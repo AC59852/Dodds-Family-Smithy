@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/product/buck%20knife" class="shop__product">
+  <NuxtLink :to="`/product/${product.name}`" class="shop__product">
     <article>
       <img :src="product.image" alt="product image" class="shop__img">
       <h3 class="shop__name">{{ product.name }}</h3>
@@ -13,7 +13,7 @@ export default {
 </script>
 <style scoped>
 .shop__product {
-  width: 22%;
+  width: 23%;
   position: relative;
 }
 
