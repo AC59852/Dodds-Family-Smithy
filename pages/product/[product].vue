@@ -16,7 +16,7 @@
           <li>Pride of ownership that can be passed down for generations</li>
         </ul>
         <div class="product__btns">
-          <button class="product__btn product__btn--details">Learn More</button>
+          <button @click="slide()" class="product__btn product__btn--details">Learn More</button>
           <NuxtLink to="/cart" class="product__btn product__btn--order product__btn--link">Add to Order</NuxtLink>
         </div>
       </section>
@@ -27,7 +27,7 @@
     <section class="product__cta">
       <h2 class="product__title product__title--cta">Ready To Order?</h2>
       <div class="product__btns product__btns--cta">
-        <button class="product__btn product__btn--cta product__btn--cta--top">Back To Top</button>
+        <button @click="toTop()" class="product__btn product__btn--cta product__btn--cta--top">Back To Top</button>
         <NuxtLink to="/cart" class="product__btn product__btn--cta product__btn--link">Add To Cart</NuxtLink>
       </div>
     </section>
@@ -43,6 +43,25 @@ export default {
         {id: 3, src: '/products/axe_grass.jpg', name: 'Image 1'},
         {id: 4, src: '/products/axe_grass.jpg', name: 'Image 1'},
       ]
+    }
+  },
+
+  methods: {
+    slide() {
+      // scrollto product__title--small
+      const el = document.querySelector('.product__title--small'),
+            top = el.offsetTop - 100;
+      window.scrollTo({
+        top,
+        behavior: 'smooth'
+      })
+    },
+
+    toTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 }

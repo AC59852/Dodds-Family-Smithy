@@ -1,10 +1,10 @@
 <template>
   <section class="shop">
-    <ShopNavigationComponent></ShopNavigationComponent>
+    <ShopNavigationComponent :categories="categories" @filter-category="filterCategory"></ShopNavigationComponent>
     <div class="shop__container">
       <h1 class="shop__title">Our {{ product }}</h1>
       <section class="shop__products">
-        <ShopProductComponent v-for="product in products" :key="product.id" :product="product"></ShopProductComponent>
+        <ShopProductComponent v-show="product.hidden !== true" v-for="product in products" :key="product.id" :product="product"></ShopProductComponent>
       </section>
     </div>
   </section>
@@ -16,25 +16,58 @@ export default {
       product: 'Products',
 
       products: [
-        {id: 0, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 1, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 2, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 3, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 4, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 5, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 6, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 7, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 8, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 9, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 10, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 11, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-      ]
+        {id: 0, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg', category: 'knives', tag: 'buck knife'},
+        {id: 1, name: 'Woodcutters Axe', image: '/products/axe_grass.jpg', category: 'axes', tag: 'woodcutting'},
+        {id: 2, name: 'Sword', image: '/products/sword_wood.jpg', category: 'swords', tag: 'ornate'},
+        {id: 3, name: 'Small Knife', image: '/products/buck_knife.jpg', category: 'knives', tag: 'small knife'},
+        {id: 4, name: 'Axe', image: '/products/axe_wood.jpg', category: 'axes', tag: 'woodcutting'},
+        {id: 5, name: 'Longsword', image: '/products/sword_rust.jpg', category: 'swords', tag: 'longsword'},
+        {id: 6, name: 'Hatchet', image: '/products/hatchet.jpg', category: 'axes', tag: 'hatchet'},
+        {id: 6, name: 'Steel Mace', image: '/products/mace.jpg', category: 'maces', tag: 'two-handed'},
+      ],
+      categories: [],
+      tags: []
     }
   },
 
-  // mounted() {
-  //   document.querySelector('.footer').style.display = 'none';
-  // },
+  mounted() {
+    this.categories = this.products.map(product => product.category)
+
+    // prevent duplicate categories
+    this.categories = this.categories.filter((category, index) => this.categories.indexOf(category) === index)
+
+    // convert the categories to objects, and add the tag from the item to the category
+    this.categories = this.categories.map(category => {
+      return {
+        name: category,
+        tags: this.products.filter(product => product.category === category).map(product => product.tag)
+      }
+    })
+
+    // prevent duplicate tags
+    this.categories.forEach(category => {
+      category.tags = category.tags.filter((tag, index) => category.tags.indexOf(tag) === index)
+    })
+  },
+
+  methods: {
+    filterCategory(category) {
+    // hide all items that aren't in the category
+    if(category === 'all') {
+      this.products.forEach(product => {
+        product.hidden = false
+      })
+    } else {
+      this.products.forEach(product => {
+        if (product.category !== category.name) {
+          product.hidden = true
+        } else {
+          product.hidden = false
+        }
+      })
+    }
+    }
+  }
 }
 </script>
 <style scoped>
@@ -53,8 +86,9 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: center;
-    width: 100%;
+    justify-content: flex-start;
+    width: 94%;
+    margin: 0 auto;
     gap: 30px;
   }
 
