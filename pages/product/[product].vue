@@ -5,36 +5,34 @@
         <SwiperComponent :images="images"></SwiperComponent>
       </div>
       <section class="product__details">
-        <h1>{{ $route.params.product }}</h1>
-        <p class="product__shortDesc">Handcrafted design with a razor-sharp blade, ergonomic handle, and durable materials for easy and efficient use.</p>
-        <ul class="product__bullets">
-          <li>Handmade by a skill craftsmen</li>
-          <li>Attention to detail and care put into every aspect</li>
-          <li>Unique and detailed handle and blade design</li>
-          <li>Sharp and long-lasting cutting edge, sharpened by hand</li>
-          <li>Constructed from high-quality and durable materials</li>
-          <li>Pride of ownership that can be passed down for generations</li>
-        </ul>
+        <h1>{{ product.data.product_name[0].text }}</h1>
+        <prismic-rich-text class="product__shortDesc" :field="product.data.product_description" />
         <div class="product__btns">
           <button @click="slide()" class="product__btn product__btn--details">Learn More</button>
-          <button to="/cart" @click.prevent="addToCart()" event="" class="product__btn product__btn--order product__btn--link">Add to Order</button>
+          <button @click="addToCart()" class="product__btn product__btn--order product__btn--link">Add to Order</button>
         </div>
       </section>
     </section>
-    <ProductDualImageComponent></ProductDualImageComponent>
-    <ProductSingleImageComponent></ProductSingleImageComponent>
-    <ProductTextComponent></ProductTextComponent>
+    <!-- slice-zone dual image slice -->
+    <slice-zone :slices="product.data.body" :components="{
+      'dual_image': DualImage,
+      'single_image': SingleImage,
+      'large_text': ProductText
+    }" />
     <section class="product__cta">
       <h2 class="product__title product__title--cta">Ready To Order?</h2>
       <div class="product__btns product__btns--cta">
         <button @click="toTop()" class="product__btn product__btn--cta product__btn--cta--top">Back To Top</button>
-        <NuxtLink to="/cart" class="product__btn product__btn--cta product__btn--link">Add To Cart</NuxtLink>
+        <button @click="addToCart()" class="product__btn product__btn--cta product__btn--link">Add To Cart</button>
       </div>
     </section>
   </div>
 </template>
 <script>
 import { useCartStore } from '@/stores/cartStore'
+import DualImage from '@/components/slices/DualImage.vue'
+import SingleImage from '@/components/slices/SingleImage.vue'
+import ProductText from '@/components/slices/ProductText.vue'
 
 export default {
   data() {
@@ -44,8 +42,27 @@ export default {
         {id: 2, src: '/products/axe_grass.jpg', name: 'Image 1'},
         {id: 3, src: '/products/axe_grass.jpg', name: 'Image 1'},
         {id: 4, src: '/products/axe_grass.jpg', name: 'Image 1'},
-      ]
+      ],
+      DualImage,
+      SingleImage,
+      ProductText
     }
+  },
+
+  async setup() {
+    const route = useRoute();
+    const routeProduct = route.params.product;
+
+    const { client } = usePrismic()
+
+    const {data: product} = await useAsyncData('product', () => client.getByUID('product', routeProduct))
+    
+    console.log(product)
+
+    return {
+      product
+    }
+
   },
 
   methods: {
@@ -112,7 +129,7 @@ export default {
 .product__details h1 {
   font-family: 'League Spartan', sans-serif;
   font-weight: bold;
-  font-size: 7rem;
+  font-size: 6.5rem;
   color: white;
   text-transform: capitalize;
   margin-top: 3%;
@@ -130,23 +147,21 @@ export default {
   max-width: 600px;
 }
 
-.product__bullets {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
+:deep() .product__shortDesc ul {
   font-size: 1.05rem;
-  color: white;
+  margin-top: 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 12px;
 }
 
-.product__bullets li {
+:deep() .product__shortDesc ul li {
   list-style: none;
   position: relative;
   padding-left: 22px;
 }
 
-.product__bullets li::before {
+:deep() .product__shortDesc ul li::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -161,7 +176,7 @@ export default {
 .product__btns {
   display: flex;
   justify-content: flex-start;
-  margin-top: 8%;
+  margin-top: 2.4rem;
   gap: 22px;
 }
 
@@ -179,6 +194,7 @@ export default {
   text-decoration: none;
   border-radius: 3px;
   transition: all 0.2s ease;
+  cursor: pointer;
   }
 
   .product__btn--link {
@@ -189,7 +205,6 @@ export default {
   .product__btn--details {
     background-color: transparent;
     font-weight: 400;
-    cursor: pointer;
   }
 
   .product__btn:hover {
@@ -238,12 +253,12 @@ export default {
     max-width: 765px;
   }
 
-  .product__bullets {
+  :deep() .product__shortDesc ul {
     font-size: 1.4rem;
     gap: 35px;
   }
 
-  .product__bullets li::before {
+  :deep() .product__shortDesc ul li::before {
     width: 8px;
     height: 8px;
   }

@@ -8,6 +8,8 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/prismic": "^3.0.0-rc.2",
+    "@prismicio/types": "^0.2.7",
     "nuxt": "^3.2.3"
   },
   "dependencies": {

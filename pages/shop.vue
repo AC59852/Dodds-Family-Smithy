@@ -5,7 +5,7 @@
       <h1 class="shop__title" v-if="activeCategory === 'all'">Our Products</h1>
       <h1 class="shop__title" v-else>Our {{ activeCategory }}</h1>
       <section class="shop__products">
-        <ShopProductComponent v-show="product.hidden !== true" v-for="product in products" :key="product.id" :product="product"></ShopProductComponent>
+        <ShopProductComponent v-show="product.hidden !== true" v-for="product in products" :key="product" :product="product"></ShopProductComponent>
       </section>
     </div>
   </section>
@@ -16,24 +16,27 @@ export default {
     return {
       product: 'Products',
 
-      products: [
-        {id: 0, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg', category: 'knives', tag: 'buck knife'},
-        {id: 1, name: 'Woodcutters Axe', image: '/products/axe_grass.jpg', category: 'axes', tag: 'woodcutting'},
-        {id: 2, name: 'Sword', image: '/products/sword_wood.jpg', category: 'swords', tag: 'ornate'},
-        {id: 3, name: 'Small Knife', image: '/products/buck_knife.jpg', category: 'knives', tag: 'small knife'},
-        {id: 4, name: 'Axe', image: '/products/axe_wood.jpg', category: 'axes', tag: 'woodcutting'},
-        {id: 5, name: 'Longsword', image: '/products/sword_rust.jpg', category: 'swords', tag: 'longsword'},
-        {id: 6, name: 'Hatchet', image: '/products/hatchet.jpg', category: 'axes', tag: 'hatchet'},
-        {id: 6, name: 'Steel Mace', image: '/products/mace.jpg', category: 'maces', tag: 'two-handed'},
-      ],
       categories: [],
       tags: [],
       activeCategory: 'all',
     }
   },
 
+  async setup() {
+    const { client } = usePrismic()
+
+    const { data: products } = await useAsyncData('product', () => client.getAllByType('product'))
+
+    console.log(products)
+
+    return {
+      products
+    }
+  },
   mounted() {
-    this.categories = this.products.map(product => product.category)
+    this.categories = this.products.map(product => product.data.category)
+
+    console.log(this.categories)
 
     // prevent duplicate categories
     this.categories = this.categories.filter((category, index) => this.categories.indexOf(category) === index)
@@ -42,7 +45,7 @@ export default {
     this.categories = this.categories.map(category => {
       return {
         name: category,
-        tags: this.products.filter(product => product.category === category).map(product => product.tag)
+        tags: this.products.filter(product => product.data.category === category).map(product => product.data.tag)
       }
     })
 
@@ -65,7 +68,7 @@ export default {
       this.activeCategory = category.name
 
       this.products.forEach(product => {
-        if (product.category !== category.name) {
+        if (product.data.category !== category.name) {
           product.hidden = true
         } else {
           product.hidden = false
@@ -77,7 +80,7 @@ export default {
     filterTag(tag) {
       this.products.forEach(product => {
         // if the tag is in the category, show it
-        if (product.tag === tag && product.category === this.activeCategory) {
+        if (product.data.tag === tag && product.data.category === this.activeCategory) {
           product.hidden = false
         } else {
           product.hidden = true

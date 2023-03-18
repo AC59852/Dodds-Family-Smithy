@@ -19,7 +19,7 @@
 <script>
 export default {
   props: ['categories'],
-  emits: ['filter-category'],
+  emits: ['filter-category', 'filter-tag'],
 
   methods: {
     openSublist(event) {
