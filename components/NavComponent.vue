@@ -7,11 +7,30 @@
         <li class="nav__item"><NuxtLink class="nav__link" to="/">Our Story</NuxtLink></li>
         <li class="nav__item"><NuxtLink class="nav__link" to="/shop">Shop</NuxtLink></li>
         <li class="nav__item"><NuxtLink class="nav__link" to="/">Contact</NuxtLink></li>
-        <li class="nav__item"><NuxtLink class="nav__link" to="/cart">Cart</NuxtLink></li>
+        <li class="nav__item"><NuxtLink class="nav__link" to="/cart">Cart ({{ totalItems }})</NuxtLink></li>
       </ul>
     </nav>
   </header>
 </template>
+<script>
+import { useCartStore } from '@/stores/cartStore'
+
+export default {
+  setup() {
+    const cartStore = useCartStore()
+
+    return {
+      cartStore
+    }
+  },
+
+  computed: {
+    totalItems() {
+      return this.cartStore.totalItems
+    }  
+  }
+}
+</script>
 <style scoped>
 .header {
   position: fixed;

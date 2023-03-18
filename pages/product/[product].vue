@@ -17,7 +17,7 @@
         </ul>
         <div class="product__btns">
           <button @click="slide()" class="product__btn product__btn--details">Learn More</button>
-          <NuxtLink to="/cart" class="product__btn product__btn--order product__btn--link">Add to Order</NuxtLink>
+          <button to="/cart" @click.prevent="addToCart()" event="" class="product__btn product__btn--order product__btn--link">Add to Order</button>
         </div>
       </section>
     </section>
@@ -34,6 +34,8 @@
   </div>
 </template>
 <script>
+import { useCartStore } from '@/stores/cartStore'
+
 export default {
   data() {
     return {
@@ -62,6 +64,11 @@ export default {
         top: 0,
         behavior: 'smooth'
       })
+    },
+
+    addToCart() {
+      const { $route } = this
+      useCartStore().addToCart($route.params.product)
     }
   }
 }
