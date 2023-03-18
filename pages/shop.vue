@@ -1,10 +1,11 @@
 <template>
   <section class="shop">
-    <ShopNavigationComponent></ShopNavigationComponent>
+    <ShopNavigationComponent :categories="categories" @filter-category="filterCategory" @filter-tag="filterTag"></ShopNavigationComponent>
     <div class="shop__container">
-      <h1 class="shop__title">Our {{ product }}</h1>
+      <h1 class="shop__title" v-if="activeCategory === 'all'">Our Products</h1>
+      <h1 class="shop__title" v-else>Our {{ activeCategory }}</h1>
       <section class="shop__products">
-        <ShopProductComponent v-for="product in products" :key="product.id" :product="product"></ShopProductComponent>
+        <ShopProductComponent v-show="product.hidden !== true" v-for="product in products" :key="product" :product="product"></ShopProductComponent>
       </section>
     </div>
   </section>
@@ -15,26 +16,78 @@ export default {
     return {
       product: 'Products',
 
-      products: [
-        {id: 0, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 1, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 2, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 3, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 4, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 5, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 6, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 7, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 8, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 9, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 10, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-        {id: 11, name: 'Buck Knife', image: 'https://www.knivesillustrated.com/wp-content/uploads/2022/04/KI_2208_BUCK_01_jac2.jpg'},
-      ]
+      categories: [],
+      tags: [],
+      activeCategory: 'all',
     }
   },
 
-  // mounted() {
-  //   document.querySelector('.footer').style.display = 'none';
-  // },
+  async setup() {
+    const { client } = usePrismic()
+
+    const { data: products } = await useAsyncData('product', () => client.getAllByType('product'))
+
+    console.log(products)
+
+    return {
+      products
+    }
+  },
+  mounted() {
+    this.categories = this.products.map(product => product.data.category)
+
+    console.log(this.categories)
+
+    // prevent duplicate categories
+    this.categories = this.categories.filter((category, index) => this.categories.indexOf(category) === index)
+
+    // convert the categories to objects, and add the tag from the item to the category
+    this.categories = this.categories.map(category => {
+      return {
+        name: category,
+        tags: this.products.filter(product => product.data.category === category).map(product => product.data.tag)
+      }
+    })
+
+    // prevent duplicate tags
+    this.categories.forEach(category => {
+      category.tags = category.tags.filter((tag, index) => category.tags.indexOf(tag) === index)
+    })
+  },
+
+  methods: {
+    filterCategory(category) {
+    // hide all items that aren't in the category
+    if(category === 'all') {
+      this.products.forEach(product => {
+        product.hidden = false
+      })
+
+      this.activeCategory = 'all'
+    } else {
+      this.activeCategory = category.name
+
+      this.products.forEach(product => {
+        if (product.data.category !== category.name) {
+          product.hidden = true
+        } else {
+          product.hidden = false
+        }
+      })
+    }
+    },
+
+    filterTag(tag) {
+      this.products.forEach(product => {
+        // if the tag is in the category, show it
+        if (product.data.tag === tag && product.data.category === this.activeCategory) {
+          product.hidden = false
+        } else {
+          product.hidden = true
+        }
+      })
+    }
+  }
 }
 </script>
 <style scoped>
@@ -53,8 +106,9 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: center;
-    width: 100%;
+    justify-content: flex-start;
+    width: 94%;
+    margin: 0 auto;
     gap: 30px;
   }
 
@@ -70,5 +124,6 @@ export default {
     font-weight: bold;
     color: white;
     margin-left: 3%;
+    text-transform: capitalize;
   }
 </style>
