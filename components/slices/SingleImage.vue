@@ -4,7 +4,7 @@
       <h2 class="product__title product__title--small">{{ slice.primary.single_image_title[0].text }}</h2>
       <prismic-rich-text :field="slice.primary.single_image_text" class="product__para" />
     </article>
-    <img src="/products/axe_grass.jpg" alt="Image 1" class="product__img product__img--single">
+    <prismic-image :field="slice.primary.single_image" class="product__img product__img--single" />
   </section>
 </template>
 <script>
@@ -94,5 +94,7 @@ export default {
 .product__img--single {
   width: 40%;
   object-fit: cover;
+  max-height: 700px;
+  object-position: center;
 }
 </style>

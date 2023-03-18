@@ -37,12 +37,7 @@ import ProductText from '@/components/slices/ProductText.vue'
 export default {
   data() {
     return {
-      images: [
-        {id: 1, src: '/products/axe_grass.jpg', name: 'Image 1'},
-        {id: 2, src: '/products/axe_grass.jpg', name: 'Image 1'},
-        {id: 3, src: '/products/axe_grass.jpg', name: 'Image 1'},
-        {id: 4, src: '/products/axe_grass.jpg', name: 'Image 1'},
-      ],
+      images: this.images,
       DualImage,
       SingleImage,
       ProductText
@@ -56,13 +51,25 @@ export default {
     const { client } = usePrismic()
 
     const {data: product} = await useAsyncData('product', () => client.getByUID('product', routeProduct))
+
+    const images = product.value.data.carousel_images.map((image, index) => {
+      return {
+        id: index,
+        src: image.carousel_image.url,
+        name: image.carousel_image.alt
+      }
+    })
     
-    console.log(product)
+    console.log(product.value.data)
 
     return {
-      product
+      product,
+      images
     }
 
+  },
+
+  mounted() {
   },
 
   methods: {
