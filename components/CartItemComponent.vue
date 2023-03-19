@@ -8,7 +8,7 @@
       <prismic-rich-text class="cartItem__desc" :field="product.data.product_description" />
       <span class="cartItem__price">${{ product.data.product_price }}</span>
       <div class="cartItem__more">
-        <button class="cartItem__remove" @click="this.cartStore.removeFromCart(product.uid)">Remove</button>
+        <button class="cartItem__remove" @click="removeFromCart">Remove</button>
         <span class="cartItem__pipe">|</span>
         <NuxtLink class="cartItem__moreLink" to="/">See More Like This</NuxtLink>
       </div>
@@ -19,6 +19,7 @@
 import { useCartStore } from '@/stores/cartStore'
 export default {
   props: ['product'],
+  emits: ['remove-from-cart'],
 
   setup() {
     const cartStore = useCartStore()
@@ -28,11 +29,11 @@ export default {
     }
   },
 
-  // methods: {
-  //   removeFromCart(product) {
-  //     this.$store.commit('cart/removeFromCart', product.uid)
-  //   }
-  // }
+  methods: {
+    removeFromCart() {
+      this.$emit('remove-from-cart', this.product)
+    }
+  }
 }
 </script>
 <style scoped>

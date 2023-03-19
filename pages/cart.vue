@@ -6,7 +6,10 @@
         <span class="cart__price">Price</span>
       </div>
       <div class="cart__itemList">
-        <CartItemComponent v-for="product in products.results" :key="product" :product="product"></CartItemComponent>
+        <p class="cart__empty" v-if="cartProducts === undefined || null || cartProducts.length === 0">
+          Looks like Your cart is empty. Browse <NuxtLink to="/shop" class="cart__link">here</NuxtLink> to add items to your cart.
+        </p>
+        <CartItemComponent v-for="product in cartProducts" :key="product" :product="product" @remove-from-cart="removeFromCart(product)"></CartItemComponent>
       </div>
     </section>
     <CartFormComponent></CartFormComponent>
@@ -49,9 +52,25 @@ export default {
     }
   },
 
-  mounted() {
-    console.log(this.products.results)
-  }
+  methods: {
+    removeFromCart(product) {
+      console.log('remove from cart')
+
+      const { removeFromCart } = useCartStore()
+      removeFromCart(product.uid)
+      
+      this.cartProducts = this.cartProducts.filter(item => item.id !== product.id)
+
+      console.log(this.cartProducts)
+    }
+  },
+
+  computed: {
+    cartItems() {
+      return this.products.results
+    }
+  },
+  
 }
 </script>
 <style scoped>
@@ -94,6 +113,18 @@ export default {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     color: white;
+  }
+
+  .cart__empty {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+    padding: 2rem 0;
+  }
+
+  .cart__link {
+    color: #FF6262;
   }
 
   .cart__itemList {

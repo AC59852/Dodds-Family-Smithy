@@ -78,9 +78,9 @@ export default {
     this.SingleImage = SingleImage
     this.ProductText = ProductText
 
-    setInterval(() => {
-      console.log(this.images)
-    }, 2000)
+    // setInterval(() => {
+    //   console.log(this.images)
+    // }, 2000)
   },
 
   methods: {
