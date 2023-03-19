@@ -11,12 +11,12 @@
         </p>
         <CartItemComponent v-for="product in cartProducts" :key="product" :product="product" @remove-from-cart="removeFromCart(product)"></CartItemComponent>
       </div>
-    </section>
-    <CartFormComponent></CartFormComponent>
-    <span class="cart__info">
+      <span class="cart__info">
       <p>*Please view below our process for fulfilling requests, as every order is custom.</p>
       <p>*Due to the large volume of orders, we are currently only accepting one item per request.</p>
     </span>
+    </section>
+    <CartFormComponent></CartFormComponent>
   </main>
   <section class="cart__process">
     <h2 class="cart__title cart__title--process">Order Process:</h2>
@@ -134,9 +134,8 @@ export default {
   }
 
   .cart__info {
-    position: absolute;
-    bottom: 9rem;
-    width: 60%;
+    margin: 3rem 0;
+    width: 100%;
     color: #BABABA;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
