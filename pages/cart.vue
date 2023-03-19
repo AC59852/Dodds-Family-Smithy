@@ -6,7 +6,7 @@
         <span class="cart__price">Price</span>
       </div>
       <div class="cart__itemList">
-        <CartItemComponent v-for="product in products" :key="product.id" :product="product"></CartItemComponent>
+        <CartItemComponent v-for="product in products.results" :key="product" :product="product"></CartItemComponent>
       </div>
     </section>
     <CartFormComponent></CartFormComponent>
@@ -27,18 +27,30 @@
   </section>
 </template>
 <script>
+import { useCartStore } from '@/stores/cartStore'
 export default {
   data() {
     return {
-      products: [
-        { id: 0, 
-          name: 'Buck Knife', 
-          desc: 'Handcrafted design with a razor-sharp blade, ergonomic handle, and durable materials for easy and efficient use.', 
-          price: 95.99, 
-          img: '/products/buck_knife.jpg'
-        },
-      ]
+      cartProducts: this.products.results
     }
+  },
+
+  async setup() {
+    const { items } = useCartStore()
+    const { client } = usePrismic()
+
+    // get all products from prismic that match the ids in the cart
+    let {data: products} = await useAsyncData('product', () => client.getByUIDs('product', items))
+
+    products = products.value;
+    console.log(products.value)
+    return {
+      products
+    }
+  },
+
+  mounted() {
+    console.log(this.products.results)
   }
 }
 </script>

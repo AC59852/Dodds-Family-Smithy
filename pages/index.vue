@@ -99,15 +99,31 @@
             text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome.'
           },
         ],
-        images: [
-          {id: 0, src: '/products/buck_knife.jpg', alt: 'buck knife', name: 'Buck Knife'},
-          {id: 1, src: '/products/axe_grass.jpg', alt: 'axe in grass', name: 'Axe'},
-          {id: 2, src: '/products/sword_rust.jpg', alt: 'rusted sword', name: 'Sword'},
-          {id: 3, src: '/products/rose.jpg', alt: 'metal rose',  name: 'Metal Rose'},
-          {id: 4, src: '/products/axe_wood.jpg', alt: 'hatchet', name: 'Hatchet'},
-          {id: 5, src: '/products/sword_wood.jpg', alt: 'sword on wood', name: 'Sword'},
-          {id: 6, src: '/products/hatchet.jpg', alt: 'hatchet', name: 'Hatchet'}
-        ]
+        images: this.images
+      }
+    },
+
+    async setup() {
+      const { client } = usePrismic();
+
+      const { data: products } = await useAsyncData('product', () => client.getAllByType('product'))
+      console.log(products.value)
+      // .then map data
+      
+
+      const images = products.value.map((product) => {
+        return {
+          id: product.id,
+          src: product.data.product_image.url,
+          alt: product.data.product_image.alt,
+          name: product.data.product_name[0].text
+        }
+      })
+
+
+      return {
+        products,
+        images
       }
     },
 
@@ -131,7 +147,6 @@
           ease: 'easeOut'
         })
       })
-
     }
   }
 </script>

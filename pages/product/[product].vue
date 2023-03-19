@@ -2,7 +2,7 @@
   <div class="product">
     <section class="product__main">
       <div class="product__swiper">
-        <SwiperComponent :images="images"></SwiperComponent>
+        <img :src="images[0].src" alt="">
       </div>
       <section class="product__details">
         <h1>{{ product.data.product_name[0].text }}</h1>
@@ -35,14 +35,6 @@ import SingleImage from '@/components/slices/SingleImage.vue'
 import ProductText from '@/components/slices/ProductText.vue'
 
 export default {
-  data() {
-    return {
-      images: this.images,
-      DualImage,
-      SingleImage,
-      ProductText
-    }
-  },
 
   async setup() {
     const route = useRoute();
@@ -59,17 +51,36 @@ export default {
         name: image.carousel_image.alt
       }
     })
+
+    const activeImage = images[0]
     
     console.log(product.value.data)
 
     return {
       product,
-      images
+      images,
+      activeImage
     }
 
   },
 
+  data() {
+    return {
+      images: this.images,
+      DualImage,
+      SingleImage,
+      ProductText
+    }
+  },
+
   mounted() {
+    this.DualImage = DualImage
+    this.SingleImage = SingleImage
+    this.ProductText = ProductText
+
+    setInterval(() => {
+      console.log(this.images)
+    }, 2000)
   },
 
   methods: {

@@ -12,36 +12,22 @@
     :pagination="{
       clickable: true,
       dynamicBullets: true,
-      dynamicMainBullets: 1
+      dynamicMainBullets: 1,
     }"
   >
-  <SwiperSlide v-for="image in images" :key="image.id" class="slide">
-    <NuxtLink :to="`/product/${image.name}`">
+  <SwiperSlide v-for="image in images" :key="image" class="slide">
+    <NuxtLink :to="`/product/axe`">
       <img :src="image.src" class="swiper__image">
       <h3>{{ image.name }}</h3>
     </NuxtLink>
   </SwiperSlide>
   </Swiper>
-  <Swiper v-else
-    :modules="[SwiperAutoplay, SwiperPagination]"
-    :slides-per-view="1"
-    :space-between="30"
-    :centered-slides="true"
-    :loop="true"
-    :pagination="{
-      clickable: true,
-      dynamicBullets: true,
-      dynamicMainBullets: 1
-    }"
-  >
-  <SwiperSlide v-for="image in images" :key="image.id" class="slide">
-    <img :src="image.src" class="swiper__image" >
-  </SwiperSlide>
-  </Swiper>
 </template>
 <script>
 export default {
-  props: ['images']
+  props: ['images'],
+
+  // before unmount destroy swiper
 }
 </script>
 <style>

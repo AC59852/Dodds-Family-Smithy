@@ -1,14 +1,14 @@
 <template>
   <article class="cart__item">
     <div class="cart__img">
-      <img :src="product.img" alt="Product Image">
+      <prismic-image :field="product.data.product_image" />
     </div>
     <div class="cart__itemInfo">
-      <h2 class="cartItem__title">{{ product.name }}</h2>
-      <p class="cartItem__desc">{{ product.desc }}</p>
-      <span class="cartItem__price">${{ product.price }}</span>
+      <h2 class="cartItem__title">{{ product.data.product_name[0].text }}</h2>
+      <prismic-rich-text class="cartItem__desc" :field="product.data.product_description" />
+      <span class="cartItem__price">${{ product.data.product_price }}</span>
       <div class="cartItem__more">
-        <button class="cartItem__remove">Remove</button>
+        <button class="cartItem__remove" @click="this.cartStore.removeFromCart(product.uid)">Remove</button>
         <span class="cartItem__pipe">|</span>
         <NuxtLink class="cartItem__moreLink" to="/">See More Like This</NuxtLink>
       </div>
@@ -16,8 +16,23 @@
   </article>
 </template>
 <script>
+import { useCartStore } from '@/stores/cartStore'
 export default {
-  props: ['product']
+  props: ['product'],
+
+  setup() {
+    const cartStore = useCartStore()
+
+    return {
+      cartStore
+    }
+  },
+
+  // methods: {
+  //   removeFromCart(product) {
+  //     this.$store.commit('cart/removeFromCart', product.uid)
+  //   }
+  // }
 }
 </script>
 <style scoped>
