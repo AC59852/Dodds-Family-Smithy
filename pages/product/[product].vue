@@ -104,6 +104,8 @@ export default {
     addToCart() {
       const { $route } = this
       useCartStore().addToCart($route.params.product)
+
+      this.$router.push('/cart')
     }
   }
 }

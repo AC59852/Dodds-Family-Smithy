@@ -20,7 +20,14 @@ export const useCartStore = defineStore({
 
   actions: {
     addToCart(item) {
-      this.items.push(item);
+      if(!this.items.includes(item)) {
+        this.items.push(item);
+      } else {
+        document.querySelector(".cart").classList.add("shake");
+        setTimeout(() => {
+          document.querySelector(".cart").classList.remove("shake");
+        }, 800);
+      }
     },
 
     removeFromCart(item) {
