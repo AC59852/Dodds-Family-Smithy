@@ -101,10 +101,28 @@ export default {
       });
     }
   },
+
+  mounted() {
+    console.log(this.$parent.categories)
+  },
+
   computed: {
     // get the categories from the parent component
     newCategories() {
-      return this.$parent.categories;
+      let categories = this.$parent.categories;
+
+      // sort the categories alphabetically
+      categories.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        } else if (a.name > b.name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      
+      return categories;
     }
   }
 }

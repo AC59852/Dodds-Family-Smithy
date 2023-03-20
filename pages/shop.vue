@@ -33,6 +33,7 @@ export default {
       products
     }
   },
+  
   mounted() {
     this.categories = this.products.map(product => product.data.category)
 

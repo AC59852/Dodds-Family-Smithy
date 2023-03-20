@@ -49,12 +49,15 @@ export default {
   font-weight: 400;
   font-size: 1.15rem;
   color: white;
-  margin-bottom: 6.2rem;
+  margin-bottom: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-:deep().product__para ul {
+:deep() .product__para ul {
   margin-top: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -63,11 +66,11 @@ export default {
   gap: 10px;
 }
 
-:deep() .product__para h3 {
+:deep() .product__para h3, :deep() .product__para h4 {
   font-size: 1.5rem;
   margin-top: 40px;
   font-weight: bold;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0;
 }
 
 :deep().product__para ul li {

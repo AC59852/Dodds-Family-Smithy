@@ -1,23 +1,82 @@
 <template>
   <article class="cart__item">
     <div class="cart__img">
-      <img :src="product.img" alt="Product Image">
+      <prismic-image :field="product.data.product_image" />
     </div>
     <div class="cart__itemInfo">
-      <h2 class="cartItem__title">{{ product.name }}</h2>
-      <p class="cartItem__desc">{{ product.desc }}</p>
-      <span class="cartItem__price">${{ product.price }}</span>
+      <h2 class="cartItem__title">{{ product.data.product_name[0].text }}</h2>
+      <prismic-rich-text class="cartItem__desc" :field="product.data.product_description" />
+      <span class="cartItem__price">${{ product.data.product_price }}</span>
       <div class="cartItem__more">
-        <button class="cartItem__remove">Remove</button>
+        <button class="cartItem__remove" @click="removeFromCart">Remove</button>
         <span class="cartItem__pipe">|</span>
-        <NuxtLink class="cartItem__moreLink" to="/">See More Like This</NuxtLink>
+        <div class="cartItem__quantity">
+          <span class="cartItem__quantLabel">Quantity:</span>
+          <button @click="increaseQuantity" class="cartItem__quantBtn cartItem__quantBtn--plus">+</button>
+          <span class="cartItem__quantNum">{{ quantity }}</span>
+          <button @click="decreaseQuantity" class="cartItem__quantBtn cartItem__quantBtn--minus">-</button>
+        </div>
       </div>
     </div>
   </article>
 </template>
 <script>
+import { useCartStore } from '@/stores/cartStore'
 export default {
-  props: ['product']
+  props: ['product'],
+  emits: ['updateQuantity'],
+
+  data() {
+    return {
+      quantity: 1
+    }
+  },
+
+  setup() {
+    const cartStore = useCartStore()
+
+    return {
+      cartStore
+    }
+  },
+
+  mounted() {
+    console.log(this.product.data)
+
+    // get the first item in product.data.product_description with the type of paragraph
+    const productDesc = this.product.data.product_description.find((desc) => desc.type === 'paragraph')
+
+    console.log(productDesc.text.length)
+
+    // if the length of the product description is greater than 100
+    if (productDesc.text.length > 196) {
+      // set the text to the first 100 characters
+      productDesc.text = productDesc.text.substring(0, 196) + '...'
+    }
+  },
+
+  methods: {
+    removeFromCart() {
+      this.$emit('remove-from-cart', this.product)
+    },
+
+    increaseQuantity() {
+      // if quantity is less than 5
+      if (this.quantity < 5) {
+        this.quantity++
+
+        this.$emit('updateQuantity', {uid: this.product.uid, quantity: this.quantity })
+      }
+    },
+
+    decreaseQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--
+
+        this.$emit('updateQuantity', {uid: this.product.uid, quantity: this.quantity })
+      }
+    }
+  }
 }
 </script>
 <style scoped>
@@ -25,7 +84,6 @@ export default {
   width: 100%;
   position: relative;
   display: flex;
-  margin: 2rem 0;
 }
 
 .cartItem__price {
@@ -85,11 +143,17 @@ export default {
   line-height: 180%;
 }
 
-.cartItem__more {
-  margin-top: auto;
+:deep().cartItem__desc *:not(p) {
+  display: none;
 }
 
-.cartItem__remove, .cartItem__moreLink, .cartItem__pipe {
+.cartItem__more {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.cartItem__remove, .cartItem__moreLink, .cartItem__pipe, .cartItem__quantLabel {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 0.9rem;
@@ -108,5 +172,35 @@ export default {
 
 .cartItem__remove:hover, .cartItem__moreLink:hover {
   text-decoration: underline;
+}
+
+.cartItem__quantity {
+  display: flex;
+  align-items: center;
+}
+
+.cartItem__quantBtn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.cartItem__quantNum {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  background: none;
+  border: solid 1px white;
+  padding: 0.4rem 0.5rem;
+  text-decoration: none;
+  margin: 0 0rem;
 }
 </style>

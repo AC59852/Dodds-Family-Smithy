@@ -4,8 +4,8 @@
       <img src="~/assets/dodds_hero-compressed.webp" class="hero__image" alt="hero image" >
       <h1 class="hero__title">Dodds Family Smithy</h1>
       <div class="hero__sub">
-        <p class="hero__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad</p>
-        <img src="" class="hero__arrow" alt="arrow pointing down to indicate further content below">
+        <p class="hero__text">family-owned, specializing in traditional blacksmithing techniques to create custom metalwork pieces. Exceptional craftsmanship, attention to detail, and commitment to quality are what you can expect with every product we produce.</p>
+        <img src="~/assets/chevron-down.svg" class="hero__arrow" alt="arrow pointing down to indicate further content below">
       </div>
     </section>
     <HomeAboutComponent></HomeAboutComponent>
@@ -13,7 +13,7 @@
       <h2>Featured Products</h2>
       <SwiperComponent :images="images" class="home__swiper"></SwiperComponent>
       <div class="products__explore">
-        <NuxtLink to="/" class="">Explore All</NuxtLink>
+        <NuxtLink to="/shop" class="">Explore All</NuxtLink>
       </div>
     </section>
     <section class="home__reviews">
@@ -99,15 +99,33 @@
             text: 'The rose was awesome. I expected it to be well done but I was blown away. Keep up the good work. Also you work incredibly fast. I figured it would take a bit longer to make. I look forward to seeing more of your work here in the near future. The rose was awesome.'
           },
         ],
-        images: [
-          {id: 0, src: '/products/buck_knife.jpg', alt: 'buck knife', name: 'Buck Knife'},
-          {id: 1, src: '/products/axe_grass.jpg', alt: 'axe in grass', name: 'Axe'},
-          {id: 2, src: '/products/sword_rust.jpg', alt: 'rusted sword', name: 'Sword'},
-          {id: 3, src: '/products/rose.jpg', alt: 'metal rose',  name: 'Metal Rose'},
-          {id: 4, src: '/products/axe_wood.jpg', alt: 'hatchet', name: 'Hatchet'},
-          {id: 5, src: '/products/sword_wood.jpg', alt: 'sword on wood', name: 'Sword'},
-          {id: 6, src: '/products/hatchet.jpg', alt: 'hatchet', name: 'Hatchet'}
-        ]
+        images: this.images
+      }
+    },
+
+    async setup() {
+      const { client } = usePrismic();
+
+      const { data: products } = await useAsyncData('product', () => client.getAllByType('product'))
+      console.log(products.value)
+      // .then map data
+      
+
+      let images = products.value.map((product) => {
+        return {
+          id: product.id,
+          src: product.data.product_image.url,
+          alt: product.data.product_image.alt,
+          name: product.data.product_name[0].text
+        }
+      })
+
+      images = images.slice(0, 7)
+
+
+      return {
+        products,
+        images
       }
     },
 
@@ -131,7 +149,6 @@
           ease: 'easeOut'
         })
       })
-
     }
   }
 </script>
@@ -158,7 +175,7 @@
   }
 
   .hero__title {
-    font-family: 'League Spartan';
+    font-family: 'League Spartan', sans-serif;
     font-size: 190px;
     width: 1626px;
     font-weight: bold;
@@ -176,6 +193,7 @@
     bottom: 35px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
   }
 
   .hero__text {
@@ -187,11 +205,10 @@
   }
 
   .hero__arrow {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     object-fit: contain;
     animation: bounce 3s cubic-bezier(0.85, 0, 0.15, 1) infinite;
-    background: red;
   }
 
   @keyframes bounce {

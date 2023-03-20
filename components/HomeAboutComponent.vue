@@ -13,12 +13,12 @@
 </template>
 <style scoped>
   .home__about {
-    max-width: 100%;
+    max-width: 1900px;
     margin: 0 auto;
     padding: 150px 0;
     display: flex;
     justify-content: center;
-    gap: 80px;
+    gap: 90px;
     align-items: center;
     /* background-image: url('@/assets/doodles.png');
     background-size: contain;
@@ -26,25 +26,25 @@
   }
 
   .home__about img {
-    width: 420px;
-    height: 540px;
+    width: 440px;
+    height: 650px;
     object-fit: cover;
   }
 
   .about__text h2 {
     font-family: 'League Spartan';
-    font-size: 72px;
+    font-size: 7rem;
     font-weight: bold;
     color: white;
   }
 
   .about__text p {
     font-family: 'Poppins';
-    font-size: 16px;
+    font-size: 1.1rem;
     color: white;
     font-weight: 300;
-    width: 530px;
-    line-height: 170%;
+    width: 590px;
+    line-height: 175%;
     margin: 35px 0;
   }
 

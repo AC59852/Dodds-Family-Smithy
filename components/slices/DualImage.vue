@@ -60,6 +60,9 @@ export default {
   color: white;
   margin: 0;
   line-height: 175%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 @media screen and (min-width: 2200px) {

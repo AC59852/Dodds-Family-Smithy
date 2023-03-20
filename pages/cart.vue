@@ -6,14 +6,17 @@
         <span class="cart__price">Price</span>
       </div>
       <div class="cart__itemList">
-        <CartItemComponent v-for="product in products" :key="product.id" :product="product"></CartItemComponent>
+        <p class="cart__empty" v-if="cartProducts === undefined || null || cartProducts.length === 0">
+          Looks like Your cart is empty. Browse <NuxtLink to="/shop" class="cart__link">here</NuxtLink> to add items to your cart.
+        </p>
+        <CartItemComponent v-for="product in cartProducts" :key="product" :product="product"  @updateQuantity="updateQuantity" @remove-from-cart="removeFromCart(product)"></CartItemComponent>
       </div>
-    </section>
-    <CartFormComponent></CartFormComponent>
-    <span class="cart__info">
+      <span class="cart__info">
       <p>*Please view below our process for fulfilling requests, as every order is custom.</p>
       <p>*Due to the large volume of orders, we are currently only accepting one item per request.</p>
     </span>
+    </section>
+    <CartFormComponent :cartProducts="cartProducts"></CartFormComponent>
   </main>
   <section class="cart__process">
     <h2 class="cart__title cart__title--process">Order Process:</h2>
@@ -27,19 +30,50 @@
   </section>
 </template>
 <script>
+import { useCartStore } from '@/stores/cartStore'
 export default {
   data() {
     return {
-      products: [
-        { id: 0, 
-          name: 'Buck Knife', 
-          desc: 'Handcrafted design with a razor-sharp blade, ergonomic handle, and durable materials for easy and efficient use.', 
-          price: 95.99, 
-          img: '/products/buck_knife.jpg'
-        },
-      ]
+      cartProducts: this.products.results
+    }
+  },
+
+  async setup() {
+    const { items } = useCartStore()
+    const { client } = usePrismic()
+
+    // get all products from prismic that match the ids in the cart
+    let {data: products} = await useAsyncData('product', () => client.getByUIDs('product', items))
+
+    products = products.value;
+    return {
+      products
+    }
+  },
+
+  methods: {
+    removeFromCart(product) {
+      console.log('remove from cart')
+
+      const { removeFromCart } = useCartStore()
+      removeFromCart(product.uid)
+      
+      this.cartProducts = this.cartProducts.filter(item => item.id !== product.id)
+
+      console.log(this.cartProducts)
+    },
+
+    updateQuantity(item) {
+
+      let quantity = item.quantity
+
+      // find the product in cartProducts that matches the quantity.uid
+      let product = this.cartProducts.find(product => product.uid === item.uid)
+
+      product.quantity = quantity
     }
   }
+  
 }
 </script>
 <style scoped>
@@ -84,16 +118,30 @@ export default {
     color: white;
   }
 
+  .cart__empty {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+    padding: 2rem 0;
+  }
+
+  .cart__link {
+    color: #FF6262;
+  }
+
   .cart__itemList {
     border-top: solid 2px #FF6262;
     border-bottom: solid 2px #FF6262;
-    padding: 0.5rem 0;
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .cart__info {
-    position: absolute;
-    bottom: 9rem;
-    width: 60%;
+    margin: 3rem 0;
+    width: 100%;
     color: #BABABA;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
