@@ -9,14 +9,14 @@
         <p class="cart__empty" v-if="cartProducts === undefined || null || cartProducts.length === 0">
           Looks like Your cart is empty. Browse <NuxtLink to="/shop" class="cart__link">here</NuxtLink> to add items to your cart.
         </p>
-        <CartItemComponent v-for="product in cartProducts" :key="product" :product="product" @remove-from-cart="removeFromCart(product)"></CartItemComponent>
+        <CartItemComponent v-for="product in cartProducts" :key="product" :product="product"  @updateQuantity="updateQuantity" @remove-from-cart="removeFromCart(product)"></CartItemComponent>
       </div>
       <span class="cart__info">
       <p>*Please view below our process for fulfilling requests, as every order is custom.</p>
       <p>*Due to the large volume of orders, we are currently only accepting one item per request.</p>
     </span>
     </section>
-    <CartFormComponent></CartFormComponent>
+    <CartFormComponent :cartProducts="cartProducts"></CartFormComponent>
   </main>
   <section class="cart__process">
     <h2 class="cart__title cart__title--process">Order Process:</h2>
@@ -46,7 +46,6 @@ export default {
     let {data: products} = await useAsyncData('product', () => client.getByUIDs('product', items))
 
     products = products.value;
-    console.log(products.value)
     return {
       products
     }
@@ -62,14 +61,18 @@ export default {
       this.cartProducts = this.cartProducts.filter(item => item.id !== product.id)
 
       console.log(this.cartProducts)
-    }
-  },
+    },
 
-  computed: {
-    cartItems() {
-      return this.products.results
+    updateQuantity(item) {
+
+      let quantity = item.quantity
+
+      // find the product in cartProducts that matches the quantity.uid
+      let product = this.cartProducts.find(product => product.uid === item.uid)
+
+      product.quantity = quantity
     }
-  },
+  }
   
 }
 </script>

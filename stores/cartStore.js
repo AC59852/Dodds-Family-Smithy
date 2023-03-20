@@ -4,7 +4,8 @@ export const useCartStore = defineStore({
   id: "cart",
   state: () => ({
     items: [
-      "mace"
+      "mace",
+      "2"
     ],
   }),
 
@@ -28,6 +29,21 @@ export const useCartStore = defineStore({
           document.querySelector(".cart").classList.remove("shake");
         }, 800);
       }
+    },
+
+    updateQuantity(item, quantity) {
+      console.log(item, quantity)
+
+      // using the uid of the item to add a quantity property
+      this.items = this.items.map((i) => {
+        if (i === item) {
+          return {
+            ...i,
+            quantity,
+          };
+        }
+        return i;
+      });
     },
 
     removeFromCart(item) {

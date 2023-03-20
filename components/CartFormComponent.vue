@@ -20,6 +20,7 @@
         <label for="message" class="cartForm__label">Message</label>
         <textarea name="message" id="message" cols="30" maxlength="300" rows="10" v-model="message" class="cartForm__input cartForm__input--message" placeholder="Message (Optional)"></textarea>
       </div>
+      <input type="hidden" name="products" :value="cartProductsString">
       <button type="submit" class="cartForm__submit">Place Request</button>
     </form>
 </template>
@@ -27,15 +28,37 @@
 import emailjs from '@emailjs/browser';
 
 export default {
+  props: ['cartProducts'],
+
   data() {
     return {
       name: '',
       email: '',
       address: '',
       city: '',
-      message: ''
+      message: '',
+      ShortenedCartProducts: [],
+      cartProductsString: ''
     }
   },
+
+  mounted() {
+    this.cartProducts.forEach(product => {
+      this.ShortenedCartProducts.push({
+        name: product.data.product_name[0].text,
+      })
+    })
+
+    this.ShortenedCartProducts.forEach(product => {
+      this.cartProductsString += `${product.name}, `
+    })
+
+    // Remove the last comma and space
+    this.cartProductsString = this.cartProductsString.slice(0, -2)
+
+    console.log(this.cartProductsString)
+  },
+
   methods: {
     sendEmail() {
       emailjs.sendForm('service_hwdjznx', 'template_yelyj1s', this.$refs.form, 'user_yM5mWxzyQShYcauGsoWXB', {
@@ -43,7 +66,8 @@ export default {
         email: this.email,
         address: this.address,
         city: this.city,
-        message: this.message
+        message: this.message,
+        products: this.cartProductsString
       })
       .then((result) => {
           console.log(result.text);

@@ -10,7 +10,12 @@
       <div class="cartItem__more">
         <button class="cartItem__remove" @click="removeFromCart">Remove</button>
         <span class="cartItem__pipe">|</span>
-        <NuxtLink class="cartItem__moreLink" to="/">See More Like This</NuxtLink>
+        <div class="cartItem__quantity">
+          <span class="cartItem__quantLabel">Quantity:</span>
+          <button @click="increaseQuantity" class="cartItem__quantBtn cartItem__quantBtn--plus">+</button>
+          <span class="cartItem__quantNum">{{ quantity }}</span>
+          <button @click="decreaseQuantity" class="cartItem__quantBtn cartItem__quantBtn--minus">-</button>
+        </div>
       </div>
     </div>
   </article>
@@ -19,7 +24,13 @@
 import { useCartStore } from '@/stores/cartStore'
 export default {
   props: ['product'],
-  emits: ['remove-from-cart'],
+  emits: ['updateQuantity'],
+
+  data() {
+    return {
+      quantity: 1
+    }
+  },
 
   setup() {
     const cartStore = useCartStore()
@@ -32,6 +43,23 @@ export default {
   methods: {
     removeFromCart() {
       this.$emit('remove-from-cart', this.product)
+    },
+
+    increaseQuantity() {
+      // if quantity is less than 5
+      if (this.quantity < 5) {
+        this.quantity++
+
+        this.$emit('updateQuantity', {uid: this.product.uid, quantity: this.quantity })
+      }
+    },
+
+    decreaseQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--
+
+        this.$emit('updateQuantity', {uid: this.product.uid, quantity: this.quantity })
+      }
     }
   }
 }
@@ -103,9 +131,11 @@ export default {
 
 .cartItem__more {
   margin-top: auto;
+  display: flex;
+  align-items: center;
 }
 
-.cartItem__remove, .cartItem__moreLink, .cartItem__pipe {
+.cartItem__remove, .cartItem__moreLink, .cartItem__pipe, .cartItem__quantLabel {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 0.9rem;
@@ -124,5 +154,35 @@ export default {
 
 .cartItem__remove:hover, .cartItem__moreLink:hover {
   text-decoration: underline;
+}
+
+.cartItem__quantity {
+  display: flex;
+  align-items: center;
+}
+
+.cartItem__quantBtn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.cartItem__quantNum {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  background: none;
+  border: solid 1px white;
+  padding: 0.4rem 0.5rem;
+  text-decoration: none;
+  margin: 0 0rem;
 }
 </style>
