@@ -4,8 +4,8 @@
       <img src="~/assets/dodds_hero-compressed.webp" class="hero__image" alt="hero image" >
       <h1 class="hero__title">Dodds Family Smithy</h1>
       <div class="hero__sub">
-        <p class="hero__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad</p>
-        <img src="" class="hero__arrow" alt="arrow pointing down to indicate further content below">
+        <p class="hero__text">family-owned, specializing in traditional blacksmithing techniques to create custom metalwork pieces. Exceptional craftsmanship, attention to detail, and commitment to quality are what you can expect with every product we produce.</p>
+        <img src="~/assets/chevron-down.svg" class="hero__arrow" alt="arrow pointing down to indicate further content below">
       </div>
     </section>
     <HomeAboutComponent></HomeAboutComponent>
@@ -13,7 +13,7 @@
       <h2>Featured Products</h2>
       <SwiperComponent :images="images" class="home__swiper"></SwiperComponent>
       <div class="products__explore">
-        <NuxtLink to="/" class="">Explore All</NuxtLink>
+        <NuxtLink to="/shop" class="">Explore All</NuxtLink>
       </div>
     </section>
     <section class="home__reviews">
@@ -111,7 +111,7 @@
       // .then map data
       
 
-      const images = products.value.map((product) => {
+      let images = products.value.map((product) => {
         return {
           id: product.id,
           src: product.data.product_image.url,
@@ -119,6 +119,8 @@
           name: product.data.product_name[0].text
         }
       })
+
+      images = images.slice(0, 7)
 
 
       return {
@@ -173,7 +175,7 @@
   }
 
   .hero__title {
-    font-family: 'League Spartan';
+    font-family: 'League Spartan', sans-serif;
     font-size: 190px;
     width: 1626px;
     font-weight: bold;
@@ -191,6 +193,7 @@
     bottom: 35px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
   }
 
   .hero__text {
@@ -202,11 +205,10 @@
   }
 
   .hero__arrow {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     object-fit: contain;
     animation: bounce 3s cubic-bezier(0.85, 0, 0.15, 1) infinite;
-    background: red;
   }
 
   @keyframes bounce {

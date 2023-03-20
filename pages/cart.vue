@@ -133,7 +133,10 @@ export default {
   .cart__itemList {
     border-top: solid 2px #FF6262;
     border-bottom: solid 2px #FF6262;
-    padding: 0.5rem 0;
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .cart__info {

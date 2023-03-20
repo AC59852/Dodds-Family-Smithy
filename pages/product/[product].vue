@@ -1,8 +1,11 @@
 <template>
   <div class="product">
     <section class="product__main">
-      <div class="product__swiper">
-        <img :src="images[0].src" alt="">
+      <div v-if="images.length !== 0 && images[0].src !== undefined" class="product__swiper">
+        <img :src="images[0].src" :alt="'Large Image of ' + product.data.product_name[0].text" class="product__image">
+      </div>
+      <div v-else class="product__swiper">
+        <prismic-image :field="product.data.product_image" class="product__image" />
       </div>
       <section class="product__details">
         <h1>{{ product.data.product_name[0].text }}</h1>
@@ -52,14 +55,15 @@ export default {
       }
     })
 
-    const activeImage = images[0]
+    console.log(images)
+
+    
     
     console.log(product.value.data)
 
     return {
       product,
-      images,
-      activeImage
+      images
     }
 
   },
@@ -121,12 +125,19 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 160px;
-  gap: 20px;
+  gap: 00px;
 }
 
 .product__swiper {
   width: 55%;
   margin: 0 auto;
+}
+
+.product__image {
+  width: 80%;
+  height: 120%;
+  object-fit: cover;
+  max-height: 700px;
 }
 
 .swiper {

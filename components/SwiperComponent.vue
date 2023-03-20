@@ -26,8 +26,6 @@
 <script>
 export default {
   props: ['images'],
-
-  // before unmount destroy swiper
 }
 </script>
 <style>

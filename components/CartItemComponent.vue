@@ -40,6 +40,21 @@ export default {
     }
   },
 
+  mounted() {
+    console.log(this.product.data)
+
+    // get the first item in product.data.product_description with the type of paragraph
+    const productDesc = this.product.data.product_description.find((desc) => desc.type === 'paragraph')
+
+    console.log(productDesc.text.length)
+
+    // if the length of the product description is greater than 100
+    if (productDesc.text.length > 196) {
+      // set the text to the first 100 characters
+      productDesc.text = productDesc.text.substring(0, 196) + '...'
+    }
+  },
+
   methods: {
     removeFromCart() {
       this.$emit('remove-from-cart', this.product)
@@ -69,7 +84,6 @@ export default {
   width: 100%;
   position: relative;
   display: flex;
-  margin: 2rem 0;
 }
 
 .cartItem__price {
@@ -127,6 +141,10 @@ export default {
   color: #BABABA;
   margin-bottom: 1rem;
   line-height: 180%;
+}
+
+:deep().cartItem__desc *:not(p) {
+  display: none;
 }
 
 .cartItem__more {
