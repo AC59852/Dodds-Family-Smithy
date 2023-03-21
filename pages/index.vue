@@ -120,7 +120,7 @@
         }
       })
 
-      images = images.slice(0, 5)
+      images = images.slice(0, 4)
 
 
       return {
