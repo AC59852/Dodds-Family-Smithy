@@ -130,6 +130,9 @@
     },
 
     mounted() {
+      // clear the gsap props
+      gsap.set('.hero__image', { clearProps: 'all' })
+
       // create parallax for the hero image
       const tl = gsap.timeline({
           scrollTrigger: {
@@ -145,8 +148,6 @@
           ease: 'easeOut'
         })
       })
-
-      ScrollTrigger.refresh()
     }
   }
 </script>
