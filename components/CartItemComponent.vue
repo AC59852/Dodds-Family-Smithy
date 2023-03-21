@@ -4,7 +4,9 @@
       <prismic-image :field="product.data.product_image" />
     </div>
     <div class="cart__itemInfo">
-      <h2 class="cartItem__title">{{ product.data.product_name[0].text }}</h2>
+      <NuxtLink :to="'/product/' + product.uid" class="cart__itemLink">
+        <h2 class="cartItem__title">{{ product.data.product_name[0].text }}</h2>
+      </NuxtLink>
       <prismic-rich-text class="cartItem__desc" :field="product.data.product_description" />
       <span class="cartItem__price">${{ product.data.product_price }}</span>
       <div class="cartItem__more">
@@ -86,6 +88,18 @@ export default {
   display: flex;
 }
 
+.cart__itemLink {
+  text-decoration: none;
+  border-bottom: solid 3px transparent;
+  color: inherit;
+  width: fit-content;
+  transition: all 0.2s ease-in-out;
+}
+
+.cart__itemLink:hover {
+  border-bottom: solid 3px white;
+}
+
 .cartItem__price {
   position: absolute;
   top: 0.4rem;
@@ -131,7 +145,6 @@ export default {
   font-weight: 600;
   font-size: 3rem;
   color: white;
-  margin-bottom: 1rem;
 }
 
 .cartItem__desc {
@@ -139,7 +152,7 @@ export default {
   font-weight: 400;
   font-size: 0.93rem;
   color: #BABABA;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   line-height: 180%;
 }
 
