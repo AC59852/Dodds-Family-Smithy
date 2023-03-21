@@ -131,24 +131,22 @@
 
     mounted() {
       // create parallax for the hero image
-      gsap.utils.toArray('.hero__image').forEach((image) => {
-        const tl = gsap.timeline({
+      const tl = gsap.timeline({
           scrollTrigger: {
-            scroller: document.body,
-            trigger: image,
+            trigger: ".home__hero",
+            start: "top top",
             scrub: true,
             pin: false
           }
         })
-
-        tl.from(image, {
-          y: 0,
-          ease: 'easeOut'
-        }).to(image, {
+      gsap.utils.toArray('.hero__image').forEach((image) => {
+        tl.to(image, {
           y: 300,
           ease: 'easeOut'
         })
       })
+
+      ScrollTrigger.refresh()
     }
   }
 </script>
