@@ -113,7 +113,7 @@
 
       let images = products.value.map((product) => {
         return {
-          id: product.id,
+          id: product.uid,
           src: product.data.product_image.url,
           alt: product.data.product_image.alt,
           name: product.data.product_name[0].text

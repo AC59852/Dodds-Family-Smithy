@@ -16,7 +16,7 @@
     }"
   >
   <SwiperSlide v-for="image in images" :key="image" class="slide">
-    <NuxtLink :to="`/product/axe`">
+    <NuxtLink :to="`/product/${image.id}`">
       <img :src="image.src" class="swiper__image">
       <h3>{{ image.name }}</h3>
     </NuxtLink>
