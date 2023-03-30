@@ -4,7 +4,7 @@
     <nav class="header__nav">
       <ul class="nav__list">
         <li class="nav__item"><NuxtLink class="nav__link" to="/">Home</NuxtLink></li>
-        <li class="nav__item"><NuxtLink class="nav__link" to="/">Our Story</NuxtLink></li>
+        <li class="nav__item"><NuxtLink class="nav__link" to="/story">Our Story</NuxtLink></li>
         <li class="nav__item"><NuxtLink class="nav__link" to="/shop">Shop</NuxtLink></li>
         <li class="nav__item"><NuxtLink class="nav__link" to="/">Contact</NuxtLink></li>
         <li class="nav__item cart"><NuxtLink class="nav__link" to="/cart">Cart ({{ totalItems }})</NuxtLink></li>
@@ -35,12 +35,11 @@ export default {
 .header {
   position: fixed;
   z-index: 999;
-  width: 90%;
+  width: 100%;
   height: 85px;
-  top: 3%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: hsla(0, 0%, 0%, 0.7);
+  top: 0;
+  left: 0;
+  background-color: hsla(0, 0%, 0%, 0.9);
   border-radius: 3px;
   display: flex;
   justify-content: space-between;
