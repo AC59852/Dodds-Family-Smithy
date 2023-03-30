@@ -5,8 +5,8 @@
       <h2>About</h2>
       <p>A family-owned blacksmith specializing in hand-forged metalwork. From custom weaponry to artisanal decoration, we create pieces that are built to last. Read more about our great story.</p>
       <div class="about__btns">
-        <NuxtLink to="/" class="about__btn about__btn--story">Our Story</NuxtLink>
-        <NuxtLink to="/" class="about__btn about__btn--faq">FAQ</NuxtLink>
+        <NuxtLink to="/story" class="about__btn about__btn--story">Our Story</NuxtLink>
+        <NuxtLink to="/contact" class="about__btn about__btn--faq">FAQ</NuxtLink>
       </div>
     </div>
   </section>
