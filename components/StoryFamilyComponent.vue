@@ -94,12 +94,17 @@ export default {
 .family__nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 20px;
   margin-top: 30px;
   font-family: 'League Spartan', sans-serif;
   font-weight: 400;
   font-size: 20px;
+}
+
+.family__title {
+  width: 96px;
+  text-align: center;
 }
 
 .family__nav img{

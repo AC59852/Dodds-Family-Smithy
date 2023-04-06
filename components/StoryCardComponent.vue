@@ -13,8 +13,8 @@ export default {
 
 <style scoped>
 .values__card {
-  width: 28%;
-  padding: 1.7rem;
+  width: 27%;
+  padding: 1.9rem;
   box-sizing: border-box;
   background-color: #202020;
   color: white;

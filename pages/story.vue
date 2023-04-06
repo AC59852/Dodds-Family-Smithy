@@ -55,7 +55,8 @@ export default {
 
 <style scoped>
 .story {
-  width: 90%;
+  width: 87%;
+  max-width: 1900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
